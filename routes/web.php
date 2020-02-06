@@ -14,3 +14,8 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/contact','TicketsController@create')->name('ticket.create');
+Route::post('/contact','TicketsController@store')->name('ticket.store');
+
+Route::get('/about','PagesController@about')->name('about');
