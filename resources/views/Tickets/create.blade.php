@@ -15,10 +15,8 @@
 
 
                     <form action="{{route('ticket.store')}}" method="POST">
-                        @if(session('status'))
-                            <p class="alert alert-success">{{session('status')}}</p>
-                        @endif
 
+                        @include('Message.success')
                         @csrf
                         <div class="form-group">
                             <label for="title" class="col-lg-2 control-label">Title: </label>

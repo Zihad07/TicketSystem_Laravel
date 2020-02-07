@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="row">
-        <div class="col-md-8 col-md-offest-2 mt-5">
+        <div class="col-md-8 mx-auto mt-5">
             <div class="card">
                 <div class="card-header">
                     <h5 class="float-left">Tickets</h5>
@@ -12,6 +12,7 @@
 
 
                 <div class="card-body">
+                    @include('Message.success')
                 @if($tickets->isEmpty())
                     <p>There is no ticket</p>
                 @else

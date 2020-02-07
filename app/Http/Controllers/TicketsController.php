@@ -64,7 +64,8 @@ class TicketsController extends Controller
     public function show($slug)
     {
         $ticket = Ticket::whereSlug($slug)->firstOrFail();
-        return view('tickets.show',compact('ticket'));
+        $comments = $ticket->comments()->get();
+        return view('tickets.show',compact('ticket','comments'));
 
     }
 
@@ -103,7 +104,7 @@ class TicketsController extends Controller
 
         $ticket->save();
 
-        return redirect(route('ticket.edit',$ticket->slug))->with('status','The ticket'.$slug.' has been updated');
+        return redirect(route('ticket.edit',$ticket->slug))->with('status','The ticket '.$slug.' has been updated');
 
     }
 
@@ -113,8 +114,11 @@ class TicketsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($slug)
     {
-        //
+        $ticket = Ticket::whereSlug($slug)->firstOrFail();
+        $ticket->delete();
+
+        return redirect(route('ticket.all'))->with('status', 'The ticket '. $slug.' has been deleted');
     }
 }
