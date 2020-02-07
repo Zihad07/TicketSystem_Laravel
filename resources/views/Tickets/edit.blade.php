@@ -1,20 +1,20 @@
 
 @extends('App.layout')
-@section('title','Create a ticket')
+@section('title','Edit a ticket')
 
 @section('content')
     <div class="row">
         <div class="col-md-8 mx-auto">
             <div class="card mt-5">
                 <div class="card-header">
-                    <h5 class="float-left">Create a ticket</h5>
+                    <h5 class="float-left">Editticket</h5>
                     <div class="clear-fix"></div>
                 </div>
 
                 <div class="card-body">
 
 
-                    <form action="{{route('ticket.store')}}" method="POST">
+                    <form action="{{route('ticket.update',$ticket->slug)}}" method="POST">
                         @if(session('status'))
                             <p class="alert alert-success">{{session('status')}}</p>
                         @endif
@@ -23,7 +23,7 @@
                         <div class="form-group">
                             <label for="title" class="col-lg-2 control-label">Title: </label>
                             <div class="col-lg-10">
-                                <input type="text" name="title" class="form-control" id="title" placeholder="Title">
+                                <input type="text" name="title" class="form-control" id="title" placeholder="Title" value="{{$ticket->title}}">
                                 @error('title')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -35,7 +35,7 @@
                         <div class="form-group">
                             <label for="title" class="col-lg-2 control-label">Content: </label>
                             <div class="col-lg-10">
-                                <textarea name="content" class="form-control" id="content" rows="3"></textarea>
+                                <textarea name="content" class="form-control" id="content" rows="3">{{$ticket->content}}</textarea>
                                 <span class="small lead">Feel free to ask any question</span>
                                 <br>
                                 @error('content')
@@ -44,12 +44,18 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" name="status" {{$ticket->status?"":"checked"}}> Close this ticket
+                            </label>
+                        </div>
+
 
 
                         <div class="form-group">
                             <div class="col-lg-10">
                                 <button class="btn btn-danger btn-sm">Cancel</button>
-                                <button type="submit" class="btn btn-primary btn-sm">Submit</button>
+                                <button type="submit" class="btn btn-primary btn-sm">Update</button>
                             </div>
                         </div>
                     </form>

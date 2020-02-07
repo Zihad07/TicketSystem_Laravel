@@ -14,8 +14,12 @@
 Route::get('/', function () {
     return view('welcome');
 });
-
+Route::get('/tickets','TicketsController@index')->name('ticket.all');
 Route::get('/contact','TicketsController@create')->name('ticket.create');
 Route::post('/contact','TicketsController@store')->name('ticket.store');
+Route::get('/ticket/{slug}','TicketsController@show')->name('ticket.show');
+Route::get('/ticket/{slug}/edit','TicketsController@edit')->name('ticket.edit');
+Route::post('/ticket/{slug}/edit','TicketsController@update')->name('ticket.update');
+
 
 Route::get('/about','PagesController@about')->name('about');

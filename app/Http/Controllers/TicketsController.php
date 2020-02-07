@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\TicketFormRequest;
 use Illuminate\Http\Request;
+use App\Ticket;
 
 class TicketsController extends Controller
 {
@@ -14,7 +15,8 @@ class TicketsController extends Controller
      */
     public function index()
     {
-        //
+        $tickets = Ticket::all();
+        return  view('tickets.index',compact('tickets'));
     }
 
     /**
@@ -35,7 +37,22 @@ class TicketsController extends Controller
      */
     public function store(TicketFormRequest $request)
     {
-        dd($request->all());
+//        dd($request->all());
+
+
+        $slug = uniqid();
+        $data = [
+            'title' => $request->get('title'),
+            'content' => $request->get('content'),
+            'slug' => $slug
+        ];
+        $ticket = new Ticket($data);
+        $ticket->save();
+
+        return redirect('/contact')->with('status','Your ticket has been created! Its unique id is: '.$slug);
+
+
+
     }
 
     /**
@@ -44,9 +61,11 @@ class TicketsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug)
     {
-        //
+        $ticket = Ticket::whereSlug($slug)->firstOrFail();
+        return view('tickets.show',compact('ticket'));
+
     }
 
     /**
@@ -55,9 +74,11 @@ class TicketsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($slug)
     {
-        //
+        $ticket = Ticket::whereSlug($slug)->firstOrFail();
+
+        return view('tickets.edit',compact('ticket'));
     }
 
     /**
@@ -67,9 +88,23 @@ class TicketsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(TicketFormRequest $request, $slug)
     {
-        //
+        $ticket = Ticket::whereSlug($slug)->firstOrFail();
+
+        $ticket->title = $request->get('title');
+        $ticket->content = $request->get('content');
+
+        if($request->get('status') != null){
+            $ticket->status = 0;
+        }else{
+            $ticket->status = 1;
+        }
+
+        $ticket->save();
+
+        return redirect(route('ticket.edit',$ticket->slug))->with('status','The ticket'.$slug.' has been updated');
+
     }
 
     /**
