@@ -44,11 +44,11 @@
     </div>
 </nav>
 
-        <div class="my-4">
-            <div class="container">
-                @yield('content')
-            </div>
-        </div>
+<div class="my-4">
+    <div class="container">
+        @yield('content')
+    </div>
+</div>
 
 <!-- Optional JavaScript -->
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->

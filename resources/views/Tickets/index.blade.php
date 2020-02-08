@@ -1,4 +1,4 @@
-@extends('App.layout')
+@extends('layouts.app')
 @section('title','View all tickets')
 
 @section('content')
@@ -22,6 +22,7 @@
                                 <th>ID</th>
                                 <th>Title</th>
                                 <th>Status</th>
+                                <th>Date</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -33,6 +34,7 @@
                                             {{ $ticket->title }}
                                         </a>
                                     </td>
+                                    <td>{{date($ticket->created_at)}}</td>
                                     <td>{{ $ticket->status ? 'Pending' : 'Answered' }}</td>
                                 </tr>
                             @endforeach

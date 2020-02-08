@@ -1,5 +1,5 @@
 
-@extends('App.layout')
+@extends('layouts.app')
 @section('title','Create a ticket')
 
 @section('content')
@@ -21,7 +21,7 @@
                         <div class="form-group">
                             <label for="title" class="col-lg-2 control-label">Title: </label>
                             <div class="col-lg-10">
-                                <input type="text" name="title" class="form-control" id="title" placeholder="Title">
+                                <input type="text" name="title" class="form-control" id="title" placeholder="Title" value="{{old('title')}}">
                                 @error('title')
                                 <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -33,7 +33,7 @@
                         <div class="form-group">
                             <label for="title" class="col-lg-2 control-label">Content: </label>
                             <div class="col-lg-10">
-                                <textarea name="content" class="form-control" id="content" rows="3"></textarea>
+                                <textarea name="content" class="form-control" id="content" rows="3">{{old('content')}}</textarea>
                                 <span class="small lead">Feel free to ask any question</span>
                                 <br>
                                 @error('content')

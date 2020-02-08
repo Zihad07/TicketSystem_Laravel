@@ -15,7 +15,7 @@ class TicketsController extends Controller
      */
     public function index()
     {
-        $tickets = Ticket::all();
+        $tickets = auth()->user()->tickets()->orderBy('created_at','desc')->get();
         return  view('tickets.index',compact('tickets'));
     }
 
@@ -44,12 +44,13 @@ class TicketsController extends Controller
         $data = [
             'title' => $request->get('title'),
             'content' => $request->get('content'),
-            'slug' => $slug
+            'slug' => $slug,
+            'user_id'=>auth()->user()->id
         ];
         $ticket = new Ticket($data);
         $ticket->save();
 
-        return redirect('/contact')->with('status','Your ticket has been created! Its unique id is: '.$slug);
+        return redirect(route('ticket.all'))->with('status','Your ticket has been created! Its unique id is: '.$slug);
 
 
 
@@ -117,6 +118,7 @@ class TicketsController extends Controller
     public function destroy($slug)
     {
         $ticket = Ticket::whereSlug($slug)->firstOrFail();
+        $ticket->comments()->delete();
         $ticket->delete();
 
         return redirect(route('ticket.all'))->with('status', 'The ticket '. $slug.' has been deleted');
